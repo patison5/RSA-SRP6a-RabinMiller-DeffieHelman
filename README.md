@@ -13,15 +13,14 @@
 
 
 
-### Trello source:
-  <img src="https://raw.githubusercontent.com/patison5/RSA-SRP6a-RabinMiller-DeffieHelman/master/s1.png" alt="Nodemon Logo">
-
-### Trello source:
-  <img src="https://raw.githubusercontent.com/patison5/RSA-SRP6a-RabinMiller-DeffieHelman/master/s2.png" alt="Nodemon Logo">
-
-### Trello source:
+### Шифрока Цезаря и тест Рабина Миллера
   <img src="https://raw.githubusercontent.com/patison5/RSA-SRP6a-RabinMiller-DeffieHelman/master/s3.png" alt="Nodemon Logo">
 
-### Trello source:
+### Алгоритм Деффи Хельмана
   <img src="https://raw.githubusercontent.com/patison5/RSA-SRP6a-RabinMiller-DeffieHelman/master/s4.png" alt="Nodemon Logo">
 
+### RSA:
+  <img src="https://raw.githubusercontent.com/patison5/RSA-SRP6a-RabinMiller-DeffieHelman/master/s1.png" alt="Nodemon Logo">
+
+### SRP-6a:
+  <img src="https://raw.githubusercontent.com/patison5/RSA-SRP6a-RabinMiller-DeffieHelman/master/s2.png" alt="Nodemon Logo">
