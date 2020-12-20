@@ -1,8 +1,6 @@
-# RSA-SRP6a-RabinMiller-DeffieHelman
-
+<h1 style="text-align: center;">RSA-SRP6a-RabinMiller-DeffieHelman</h1>
 
 <p align="center">
-	<h1>RSA-SRP6a-RabinMiller-DeffieHelman</h1>
   <span>Шел четвертый курс шараги...</span>
 </p>
 
