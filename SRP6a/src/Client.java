@@ -2,20 +2,20 @@ import java.math.BigInteger;
 import java.util.Random;
 
 public class Client {
-        private BigInteger N; // безопасное простое
-        private BigInteger g; // генератор по модулю N
-        private BigInteger k; // параметр-множитель
+        private BigInteger N; // Р±РµР·РѕРїР°СЃРЅРѕРµ РїСЂРѕСЃС‚РѕРµ
+        private BigInteger g; // РіРµРЅРµСЂР°С‚РѕСЂ РїРѕ РјРѕРґСѓР»СЋ N
+        private BigInteger k; // РїР°СЂР°РјРµС‚СЂ-РјРЅРѕР¶РёС‚РµР»СЊ
         private BigInteger x; // x = H(s,p)
         private BigInteger v; // v = g^x % n
-        private BigInteger a; // секретное число
-        private BigInteger A; // ОК клиента
-        private BigInteger B; // ОК сервера
-        private BigInteger u; // скремблер
+        private BigInteger a; // СЃРµРєСЂРµС‚РЅРѕРµ С‡РёСЃР»Рѕ
+        private BigInteger A; // РћРљ РєР»РёРµРЅС‚Р°
+        private BigInteger B; // РћРљ СЃРµСЂРІРµСЂР°
+        private BigInteger u; // СЃРєСЂРµРјР±Р»РµСЂ
         private BigInteger K; // hash for session key
         private BigInteger M_C; //
-        private String I; // логин
-        private String p; // пароль
-        private String s; // Соль
+        private String I; // Р»РѕРіРёРЅ
+        private String p; // РїР°СЂРѕР»СЊ
+        private String s; // РЎРѕР»СЊ
 
         public Client(BigInteger N, BigInteger g, BigInteger k, String I, String p) {
                 this.N = N;
@@ -25,7 +25,7 @@ public class Client {
                 this.p = p;
         }
 
-        //Шаг 1: Клиент вычисляет соль, x и верификатор
+        //РЁР°Рі 1: РљР»РёРµРЅС‚ РІС‹С‡РёСЃР»СЏРµС‚ СЃРѕР»СЊ, x Рё РІРµСЂРёС„РёРєР°С‚РѕСЂ
         public void set_SXV() {
                 s = getSalt();
                 // x = H(s, p)
@@ -47,16 +47,16 @@ public class Client {
                 return sb.toString();
         }
 
-        // Шаг 2: Создаём ОК клиента:
+        // РЁР°Рі 2: РЎРѕР·РґР°С‘Рј РћРљ РєР»РёРµРЅС‚Р°:
         public BigInteger gen_A() {
-                // а - большое рандомное число
+                // Р° - Р±РѕР»СЊС€РѕРµ СЂР°РЅРґРѕРјРЅРѕРµ С‡РёСЃР»Рѕ
                 a = new BigInteger(1024, new Random());
                 // A = g^a % N
                 A = g.modPow(a, N);
                 return A;
         }
 
-        // Получаем ОК сервера
+        // РџРѕР»СѓС‡Р°РµРј РћРљ СЃРµСЂРІРµСЂР°
         public void receiveSaltAndB(String s, BigInteger B) throws IllegalAccessException {
                 this.s = s;
                 this.B = B;
@@ -65,7 +65,7 @@ public class Client {
                 if (B.equals(BigInteger.ZERO)) throw new IllegalAccessException();
         }
 
-        //Шаг 3: генерим скремблер из А и Б:
+        //РЁР°Рі 3: РіРµРЅРµСЂРёРј СЃРєСЂРµРјР±Р»РµСЂ РёР· Рђ Рё Р‘:
         public void gen_u() throws IllegalAccessException {
                 // u = H(A, B)
                 u = SHA256.hash(A, B);
@@ -73,7 +73,7 @@ public class Client {
                 // u != 0
                 if (u.equals(BigInteger.ZERO)) throw new IllegalAccessException();
         }
-        //Шаг 4: генерация ключа сессии по соли и паролю
+        //РЁР°Рі 4: РіРµРЅРµСЂР°С†РёСЏ РєР»СЋС‡Р° СЃРµСЃСЃРёРё РїРѕ СЃРѕР»Рё Рё РїР°СЂРѕР»СЋ
         public void generateSessionKey() {
                 // x = H(s, p)
                 x = SHA256.hash(s, p);
@@ -83,14 +83,14 @@ public class Client {
                 K = SHA256.hash(S);
         }
 
-        //Шаг 5: подтверждение от клиента
+        //РЁР°Рі 5: РїРѕРґС‚РІРµСЂР¶РґРµРЅРёРµ РѕС‚ РєР»РёРµРЅС‚Р°
         public BigInteger ClientConfirm() {
                 // M = H(H(N) xor H(g), H(I), s, A, B, K)
                 M_C = SHA256.hash(SHA256.hash(N).xor(SHA256.hash(g)), SHA256.hash(I), s, A, B, K);
                 return M_C;
         }
 
-        // Клиент вычисляет своё R и сравнивает с R сервера
+        // РљР»РёРµРЅС‚ РІС‹С‡РёСЃР»СЏРµС‚ СЃРІРѕС‘ R Рё СЃСЂР°РІРЅРёРІР°РµС‚ СЃ R СЃРµСЂРІРµСЂР°
         public boolean compare_R_C(BigInteger R_S) {
                 // R = H(A, M, K)
                 BigInteger R_C = SHA256.hash(A, M_C, K);

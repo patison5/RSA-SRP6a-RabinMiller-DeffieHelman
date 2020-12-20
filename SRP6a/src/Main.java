@@ -15,20 +15,20 @@ public class Main {
         Server server = new Server(N, g, k);
 
         while (true) {
-            System.out.println("Выберите:");
-            System.out.println("1. Регистрация");
-            System.out.println("2. Вход");
+            System.out.println("Р’С‹Р±РµСЂРёС‚Рµ:");
+            System.out.println("1. Р РµРіРёСЃС‚СЂР°С†РёСЏ");
+            System.out.println("2. Р’С…РѕРґ");
 
             Scanner input = new Scanner(System.in);
             int ch = input.nextInt();
             switch (ch) {
 
-                // Регистрация
+                // Р РµРіРёСЃС‚СЂР°С†РёСЏ
                 case 1: {
-                    System.out.println("Введите логин: ");
+                    System.out.println("Р’РІРµРґРёС‚Рµ Р»РѕРіРёРЅ: ");
                     String login = input.next();
 
-                    System.out.println("Введите пароль: ");
+                    System.out.println("Р’РІРµРґРёС‚Рµ РїР°СЂРѕР»СЊ: ");
                     String password = input.next();
 
                     Client client = new Client(N, g, k, login, password);
@@ -38,19 +38,19 @@ public class Main {
                     BigInteger v = client.get_v();
                     try {
                         server.set_ISV(login, s, v);
-                        //Если в мапе есть имя, то:
+                        //Р•СЃР»Рё РІ РјР°РїРµ РµСЃС‚СЊ РёРјСЏ, С‚Рѕ:
                     } catch (InvalidNameException e) {
-                        System.out.println("Имя уже используется!");
+                        System.out.println("РРјСЏ СѓР¶Рµ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ!");
                     }
                     break;
                 }
 
-                // Вход
+                // Р’С…РѕРґ
                 case 2: {
-                    System.out.println("Введите логин: ");
+                    System.out.println("Р’РІРµРґРёС‚Рµ Р»РѕРіРёРЅ: ");
                     String login = input.next();
 
-                    System.out.println("Введите пароль: ");
+                    System.out.println("Р’РІРµРґРёС‚Рµ РїР°СЂРѕР»СЊ: ");
                     String password = input.next();
 
                     Client client = new Client(N, g, k, login, password);
@@ -70,7 +70,7 @@ public class Main {
                         BigInteger B = server.create_B();
                         client.receiveSaltAndB(s, B);
                     } catch (IllegalAccessException e) {
-                        System.out.println("Такого пользователя не существует!");
+                        System.out.println("РўР°РєРѕРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚!");
                         break;
                     }
 
@@ -78,7 +78,7 @@ public class Main {
                         client.gen_u();
                         server.gen_u();
                     } catch (IllegalAccessException e) {
-                        System.out.println("Соединение разорвано!");
+                        System.out.println("РЎРѕРµРґРёРЅРµРЅРёРµ СЂР°Р·РѕСЂРІР°РЅРѕ!");
                         break;
                     }
 
@@ -88,9 +88,9 @@ public class Main {
                     BigInteger server_R = server.create_M(client.ClientConfirm());
 
                     if (client.compare_R_C(server_R))
-                        System.out.println("Соединение установлено!");
+                        System.out.println("РЎРѕРµРґРёРЅРµРЅРёРµ СѓСЃС‚Р°РЅРѕРІР»РµРЅРѕ!");
                     else
-                        System.out.println("Неверный пароль");
+                        System.out.println("РќРµРІРµСЂРЅС‹Р№ РїР°СЂРѕР»СЊ");
                     break;
                 }
                 default:

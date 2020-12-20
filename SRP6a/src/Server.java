@@ -5,18 +5,18 @@ import java.util.Map;
 import java.util.Random;
 
 public class Server {
-    private BigInteger N; // безопасное простое
-    private BigInteger g; // генератор по модулю N
-    private BigInteger k; // параметр-множитель
-    private BigInteger v; // верификатор
-    private BigInteger A; // ОК клиента
-    private BigInteger B; // ОК сервера
-    private BigInteger b; // секретное значение сервера
-    private BigInteger u; // скремблер
-    private BigInteger K; // общий хэш-ключ сессии
-    private String I; // логин
-    private String s; // соль
-    private Map < String, Pair < String, BigInteger >> database = new HashMap < >(); //БД значений с клиента
+    private BigInteger N; // Р±РµР·РѕРїР°СЃРЅРѕРµ РїСЂРѕСЃС‚РѕРµ
+    private BigInteger g; // РіРµРЅРµСЂР°С‚РѕСЂ РїРѕ РјРѕРґСѓР»СЋ N
+    private BigInteger k; // РїР°СЂР°РјРµС‚СЂ-РјРЅРѕР¶РёС‚РµР»СЊ
+    private BigInteger v; // РІРµСЂРёС„РёРєР°С‚РѕСЂ
+    private BigInteger A; // РћРљ РєР»РёРµРЅС‚Р°
+    private BigInteger B; // РћРљ СЃРµСЂРІРµСЂР°
+    private BigInteger b; // СЃРµРєСЂРµС‚РЅРѕРµ Р·РЅР°С‡РµРЅРёРµ СЃРµСЂРІРµСЂР°
+    private BigInteger u; // СЃРєСЂРµРјР±Р»РµСЂ
+    private BigInteger K; // РѕР±С‰РёР№ С…СЌС€-РєР»СЋС‡ СЃРµСЃСЃРёРё
+    private String I; // Р»РѕРіРёРЅ
+    private String s; // СЃРѕР»СЊ
+    private Map < String, Pair < String, BigInteger >> database = new HashMap < >(); //Р‘Р” Р·РЅР°С‡РµРЅРёР№ СЃ РєР»РёРµРЅС‚Р°
 
     public Server(BigInteger N, BigInteger g, BigInteger k) {
         this.N = N;
@@ -24,23 +24,23 @@ public class Server {
         this.k = k;
     }
 
-    //Загоняем в БД Логин с солью и верификатором от клиента
+    //Р—Р°РіРѕРЅСЏРµРј РІ Р‘Р” Р›РѕРіРёРЅ СЃ СЃРѕР»СЊСЋ Рё РІРµСЂРёС„РёРєР°С‚РѕСЂРѕРј РѕС‚ РєР»РёРµРЅС‚Р°
     public void set_ISV(String I, String s, BigInteger v) throws InvalidNameException {
         if (!database.containsKey(I)) {
             database.put(I, new Pair < >(s, v));
         } else throw new InvalidNameException();
     }
 
-    //Получем от клиента его ОК:
+    //РџРѕР»СѓС‡РµРј РѕС‚ РєР»РёРµРЅС‚Р° РµРіРѕ РћРљ:
     public void set_A(BigInteger A) throws IllegalAccessException {
         // A != 0
         if (A.equals(BigInteger.ZERO)) throw new IllegalAccessException();
         else this.A = A;
     }
 
-    //Создаём ОК серва:
+    //РЎРѕР·РґР°С‘Рј РћРљ СЃРµСЂРІР°:
     public BigInteger create_B() {
-        // b - рандомное большое число
+        // b - СЂР°РЅРґРѕРјРЅРѕРµ Р±РѕР»СЊС€РѕРµ С‡РёСЃР»Рѕ
         b = new BigInteger(1024, new Random());
 
         // B = (k*v + g^b mod N) mod N
@@ -48,7 +48,7 @@ public class Server {
         return B;
     }
 
-    //генерим скремблер из А и В
+    //РіРµРЅРµСЂРёРј СЃРєСЂРµРјР±Р»РµСЂ РёР· Рђ Рё Р’
     public void gen_u() throws IllegalAccessException {
         // u = H(A, B)
         u = SHA256.hash(A, B);
@@ -56,7 +56,7 @@ public class Server {
         if (u.equals(BigInteger.ZERO)) throw new IllegalAccessException();
     }
 
-    //Сервер достаёт соль с верификатором для логина, вычисленные при регистрации
+    //РЎРµСЂРІРµСЂ РґРѕСЃС‚Р°С‘С‚ СЃРѕР»СЊ СЃ РІРµСЂРёС„РёРєР°С‚РѕСЂРѕРј РґР»СЏ Р»РѕРіРёРЅР°, РІС‹С‡РёСЃР»РµРЅРЅС‹Рµ РїСЂРё СЂРµРіРёСЃС‚СЂР°С†РёРё
     public String get_s(String I) throws IllegalAccessException {
         if (database.containsKey(I)) {
             this.I = I;
@@ -66,7 +66,7 @@ public class Server {
         } else throw new IllegalAccessException();
     }
 
-    //Сервер со своей стороны так же вычисляет общий ключ сессии
+    //РЎРµСЂРІРµСЂ СЃРѕ СЃРІРѕРµР№ СЃС‚РѕСЂРѕРЅС‹ С‚Р°Рє Р¶Рµ РІС‹С‡РёСЃР»СЏРµС‚ РѕР±С‰РёР№ РєР»СЋС‡ СЃРµСЃСЃРёРё
     public void generateSessionKey() {
         // S = (A*(v^u mod N))^b mod N
         BigInteger S = A.multiply(v.modPow(u, N)).modPow(b, N);
@@ -74,7 +74,7 @@ public class Server {
         K = SHA256.hash(S);
     }
 
-    //Сервер у себя вычисляет M используя свою копию K, и проверяет равенство c M_C.
+    //РЎРµСЂРІРµСЂ Сѓ СЃРµР±СЏ РІС‹С‡РёСЃР»СЏРµС‚ M РёСЃРїРѕР»СЊР·СѓСЏ СЃРІРѕСЋ РєРѕРїРёСЋ K, Рё РїСЂРѕРІРµСЂСЏРµС‚ СЂР°РІРµРЅСЃС‚РІРѕ c M_C.
     public BigInteger create_M(BigInteger M_C) {
         // M = H(H(N) xor H(g), H(I), s, A, B, K)
         BigInteger M_S = SHA256.hash(SHA256.hash(N).xor(SHA256.hash(g)), SHA256.hash(I), s, A, B, K);
@@ -83,7 +83,7 @@ public class Server {
         else return BigInteger.ZERO;
     }
 
-    //Заносим в мапу параметры: соль с верификатором
+    //Р—Р°РЅРѕСЃРёРј РІ РјР°РїСѓ РїР°СЂР°РјРµС‚СЂС‹: СЃРѕР»СЊ СЃ РІРµСЂРёС„РёРєР°С‚РѕСЂРѕРј
     private class Pair < A, B > {
         A first;
         B second;
