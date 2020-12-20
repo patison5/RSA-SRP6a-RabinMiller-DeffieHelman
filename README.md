@@ -6,11 +6,6 @@
 
 #
 
-[![NPM version](https://badge.fury.io/js/nodemon.svg)](https://github.com/patison5/CentenaireBataille)
-[![Travis Status](https://travis-ci.org/remy/nodemon.svg?branch=master)](https://github.com/patison5/CentenaireBataille) 
-[![Backers on Open Collective](https://opencollective.com/nodemon/backers/badge.svg)](#backers) 
-[![Sponsors on Open Collective](https://opencollective.com/nodemon/sponsors/badge.svg)](#sponsors)
-
 
 
 ### Шифрока Цезаря и тест Рабина Миллера
