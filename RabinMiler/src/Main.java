@@ -5,7 +5,6 @@ public class Main {
     public static void main(String[] args) {
         rabinMiller(); // Рабин миллер
         defihelman();  // деффи хельман
-//        srp6();
     }
 
     static void rabinMiller () {
@@ -47,9 +46,4 @@ public class Main {
         System.out.println("Дешифрованное сообщение: " + dh1.decryptMessage(dh1.encryptMessage("hello world")));
         System.out.println("---------------------------\n");
     }
-//
-//
-//    static void srp6 () {
-//
-//    }
 }

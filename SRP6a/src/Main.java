@@ -15,9 +15,9 @@ public class Main {
         Server server = new Server(N, g, k);
 
         while (true) {
-            System.out.println("Выберите:");
-            System.out.println("1. Регистрация");
-            System.out.println("2. Вход");
+            System.out.println("Choose:");
+            System.out.println("1. Registration");
+            System.out.println("2. Login");
 
             Scanner input = new Scanner(System.in);
             int ch = input.nextInt();
@@ -25,10 +25,10 @@ public class Main {
 
                 // Регистрация
                 case 1: {
-                    System.out.println("Введите логин: ");
+                    System.out.println("Login: ");
                     String login = input.next();
 
-                    System.out.println("Введите пароль: ");
+                    System.out.println("password: ");
                     String password = input.next();
 
                     Client client = new Client(N, g, k, login, password);
@@ -40,17 +40,17 @@ public class Main {
                         server.set_ISV(login, s, v);
                         //Если в мапе есть имя, то:
                     } catch (InvalidNameException e) {
-                        System.out.println("Имя уже используется!");
+                        System.out.println("Login is already used!");
                     }
                     break;
                 }
 
                 // Вход
                 case 2: {
-                    System.out.println("Введите логин: ");
+                    System.out.println("Login: ");
                     String login = input.next();
 
-                    System.out.println("Введите пароль: ");
+                    System.out.println("Password: ");
                     String password = input.next();
 
                     Client client = new Client(N, g, k, login, password);
@@ -70,7 +70,7 @@ public class Main {
                         BigInteger B = server.create_B();
                         client.receiveSaltAndB(s, B);
                     } catch (IllegalAccessException e) {
-                        System.out.println("Такого пользователя не существует!");
+                        System.out.println("Incorrect login or password");
                         break;
                     }
 
@@ -78,7 +78,7 @@ public class Main {
                         client.gen_u();
                         server.gen_u();
                     } catch (IllegalAccessException e) {
-                        System.out.println("Соединение разорвано!");
+                        System.out.println("Connection lost!");
                         break;
                     }
 
@@ -88,9 +88,9 @@ public class Main {
                     BigInteger server_R = server.create_M(client.ClientConfirm());
 
                     if (client.compare_R_C(server_R))
-                        System.out.println("Соединение установлено!");
+                        System.out.println("Connected!");
                     else
-                        System.out.println("Неверный пароль");
+                        System.out.println("Incorrect login or password");
                     break;
                 }
                 default:

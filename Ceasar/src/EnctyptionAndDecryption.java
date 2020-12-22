@@ -55,7 +55,6 @@ public class EnctyptionAndDecryption {
 //                                (e1, e2) -> e1, LinkedHashMap::new));
 
 
-        System.out.println("Тестим эту хуету");
         for(Character c : encryptedSymbolsStat.keySet()) {
             System.out.print(c + ":" + encryptedSymbolsStat.get(c) + ", ");
         }
@@ -151,8 +150,6 @@ public class EnctyptionAndDecryption {
     }
 
     Map<Character, Double> getSymbolsStat(String filename) throws IOException {
-
-        System.out.println("Работай блять");
 
         FileInputStream file = new FileInputStream(filename);
         InputStreamReader text = new InputStreamReader(file, "UTF-8");

@@ -1,5 +1,4 @@
 import java.math.BigInteger;
-import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
@@ -8,7 +7,7 @@ public class Main {
 
         String message = "Hello world !";
 
-        System.out.println("Передаем открытый ключ второму пользователю: " + user1.getOK()[1]);
+        System.out.println("РџРµСЂРµРґР°РµРј РѕС‚РєСЂС‹С‚С‹Р№ РєР»СЋС‡ РІС‚РѕСЂРѕРјСѓ РїРѕР»СЊР·РѕРІР°С‚РµР»СЋ: " + user1.getOK()[1]);
 
         BigInteger[] Crypted = user2.encrypt(user1.getOK(), message);
         StringBuilder str = new StringBuilder();
@@ -18,15 +17,14 @@ public class Main {
         }
 
         String EncryptedMessage = str.toString();
-        System.out.println("Зашифрованное сообщение: " + EncryptedMessage);
+        System.out.println("Р—Р°С€РёС„СЂРѕРІР°РЅРЅРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ: " + EncryptedMessage);
 
         System.out.println();
 
-        System.out.println("Расшифровка сообщения пользователем...:");
+        System.out.println("Р Р°СЃС€РёС„СЂРѕРІРєР° СЃРѕРѕР±С‰РµРЅРёСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»РµРј...:");
 
         String Decryption = user1.decrypt(Crypted);
 
-        System.out.println("Расшифрованное сообщение: " + Decryption);
-
+        System.out.println("Р Р°СЃС€РёС„СЂРѕРІР°РЅРЅРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ: " + Decryption);
     }
 }
